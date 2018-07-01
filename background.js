@@ -1,5 +1,7 @@
 'use strict';
 
+const CONSUMER_KEY = '63325-942e4030a60f61d0fe170393';
+
 const storage = {
   reset: () =>
     new Promise(resolve => {
@@ -24,7 +26,7 @@ const api = {
         'X-Accept': 'application/json',
       },
       body: JSON.stringify({
-        consumer_key: '63325-942e4030a60f61d0fe170393',
+        consumer_key: CONSUMER_KEY,
         redirect_uri: 'https://localhost:3000',
       }),
     })
@@ -32,7 +34,6 @@ const api = {
       .then(res => res.code)
       .catch(() => null),
   authorize: code => {
-    console.log('authorize', code);
     window.open(
       `https://getpocket.com/auth/authorize?request_token=${code}&redirect_uri=https://getpocket.com/`,
     );
@@ -47,19 +48,46 @@ const api = {
         }
       });
     }),
-  getAccessToken: () => new Promise(resolve => {}),
+  getAccessToken: async code =>
+    fetch('https://getpocket.com/v3/oauth/authorize', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Accept': 'application/json',
+      },
+      body: JSON.stringify({
+        consumer_key: CONSUMER_KEY,
+        code,
+      }),
+    })
+      .then(res => res.json())
+      .then(res => res.access_token)
+      .catch(() => null),
+  getList: async accessToken =>
+    fetch('https://getpocket.com/v3/oauth/authorize', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Accept': 'application/json',
+      },
+      body: JSON.stringify({
+        consumer_key: CONSUMER_KEY,
+        access_token: accessToken,
+        state: 'all',
+        detailType: 'simple',
+      }),
+    })
+      .then(res => res.json())
+      .catch(() => null),
 };
 
 const runAuth = async () => {
-  console.log('runAuth: ');
-  // Do all the auth stuff.
-  const accessToken = `${String(Date.now())}`;
-
   const code = await api.getCode();
-  console.log('code: ', code);
+  if (!code) return null;
   await api.authorize(code);
   await api.waitForAuth();
-  console.log('auth done');
+  const accessToken = await api.getAccessToken(code);
+  if (!accessToken) return null;
 
   // Save back to storage and then return the token.
   await storage.set(accessToken);
@@ -68,17 +96,19 @@ const runAuth = async () => {
 
 const getAccessToken = async () => {
   const accessToken = await storage.get();
-  console.log('accessToken: ', accessToken);
-  return await runAuth();
-  // return accessToken || (await runAuth());
+  return accessToken || (await runAuth());
 };
 
 chrome.runtime.onInstalled.addListener(async () => {
   console.log('running');
-  // const accessToken = await getAccessToken();
+  await getAccessToken();
   // console.log('accessToken: ', accessToken);
 
-  window.getAccessToken = getAccessToken;
+  window.getAccessToken = () => {
+    getAccessToken().then(res => {
+      console.log('res: ', res);
+    });
+  };
 });
 
 chrome.runtime.onStartup.addListener(function() {
