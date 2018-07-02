@@ -57,14 +57,14 @@ const api = {
       },
       body: JSON.stringify({
         consumer_key: CONSUMER_KEY,
-        code,
+        access_token: code,
       }),
     })
       .then(res => res.json())
       .then(res => res.access_token)
       .catch(() => null),
   getList: async accessToken =>
-    fetch('https://getpocket.com/v3/oauth/authorize', {
+    fetch('https://getpocket.com/v3/get', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -101,16 +101,39 @@ const getAccessToken = async () => {
 
 chrome.runtime.onInstalled.addListener(async () => {
   console.log('running');
-  await getAccessToken();
-  // console.log('accessToken: ', accessToken);
-
-  window.getAccessToken = () => {
-    getAccessToken().then(res => {
-      console.log('res: ', res);
-    });
-  };
+  const accessToken = await getAccessToken();
+  console.log('accessToken: ', accessToken);
 });
+
+window.getAccessToken = () => {
+  getAccessToken().then(res => {
+    console.log('res: ', res);
+  });
+};
+
+const getList = async () => {
+  const accessToken = await getAccessToken();
+  console.log('accessToken: ', accessToken);
+  const list = await api.getList(accessToken);
+  console.log('list: ', list);
+
+  return list;
+};
 
 chrome.runtime.onStartup.addListener(function() {
   console.log('start!');
+  getList().then(list => {
+    console.log('list: ', list);
+  });
 });
+
+window.getList = () => {
+  getList().then(res => {
+    console.log('res: ', res);
+  });
+};
+
+// Notes
+// https://developer.chrome.com/extensions/getstarted
+// https://getpocket.com/developer/docs/v3/retrieve
+// https://getpocket.com/developer/docs/authentication
