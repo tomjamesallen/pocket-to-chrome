@@ -6,10 +6,8 @@ const logger = new Logger('bookmarks.js');
 
 const POCKET_BOOKMARKS_FOLDER = 'Pocket Bookmarks';
 
-const FOLDER_ID = '18'; // TODO - keep in local storage
-
-const processItems = (urls, items) => {
-  const keys = Object.keys(items).slice(0, 100);
+const processItems = (urls, items, limit = undefined) => {
+  const keys = Object.keys(items).slice(0, limit);
   logger.trace(`addItems - ${keys.length} items`);
 
   keys.forEach(key => {
@@ -23,41 +21,56 @@ const processItems = (urls, items) => {
   return sortby(urls, item => item.url);
 };
 
-const getTree = () => new Promise(resolve => chrome.bookmarks.getTree(resolve));
-const get = idOrIdList =>
-  new Promise(resolve => chrome.bookmarks.get(idOrIdList, resolve));
+const getFolderMatches = () =>
+  new Promise(resolve =>
+    chrome.bookmarks.search({ title: POCKET_BOOKMARKS_FOLDER }, resolve),
+  );
 
-const removeFolder = id =>
-  new Promise(resolve => chrome.bookmarks.removeTree(id, resolve));
+const removeFolder = async () => {
+  const oldFolder = await getFolderMatches();
+  return Promise.all(
+    oldFolder.map(
+      folder =>
+        new Promise(res => {
+          chrome.bookmarks.removeTree(folder.id, res);
+        }),
+    ),
+  );
+};
 
 const createFolder = () =>
   new Promise(resolve =>
     chrome.bookmarks.create({ title: POCKET_BOOKMARKS_FOLDER }, resolve),
   );
 
-const resetFolder = async id => {
-  await removeFolder(id);
+const resetFolder = async () => {
+  await removeFolder();
   return createFolder();
 };
 
 const saveUrlsAsBookmarks = async urls => {
   logger.trace(`Saving ${urls.length} urls as bookmarks`);
 
-  const folder = await resetFolder(FOLDER_ID);
-  console.log('folder: ', folder);
-  const tree = await getTree();
-  console.log('tree: ', tree);
+  const folder = await resetFolder();
+  logger.trace('reset folder');
 
-  const otherBookmarks = await get('Other Bookmarks');
-  console.log('otherBookmarks: ', otherBookmarks);
+  await Promise.all(
+    urls.map(
+      ({ title, url }) =>
+        new Promise(resolve => {
+          chrome.bookmarks.create({ parentId: folder.id, title, url }, resolve);
+        }),
+    ),
+  );
 };
 
 class Bookmarks {
   constructor() {}
 
-  addItems = items => {
+  addItems = async items => {
     const urls = processItems([], items);
-    saveUrlsAsBookmarks(urls);
+    await saveUrlsAsBookmarks(urls);
+    logger.trace('items added');
   };
 }
 

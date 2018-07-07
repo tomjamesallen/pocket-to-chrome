@@ -15,28 +15,16 @@ const sync = async () => {
   logger.trace('Syncing bookmarks');
   const list = await pocket.getList();
   if (!list) return;
-  console.log('list: ', list);
-
   bookmarks.addItems(list.list);
 };
 
 chrome.runtime.onInstalled.addListener(async () => {
-  console.log('running');
   sync();
-  // const accessToken = await getAccessToken();
-  // console.log('accessToken: ', accessToken);
 });
 
 chrome.runtime.onStartup.addListener(function() {
-  console.log('start!');
-  // getList().then(list => {
-  //   console.log('list: ', list);
-  // });
-});
-
-window.getList = () => {
   sync();
-};
+});
 
 // Notes
 // https://developer.chrome.com/extensions/getstarted
