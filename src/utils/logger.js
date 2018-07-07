@@ -1,9 +1,12 @@
 import config from '../config';
 
-const getMessageConstructor = area => callback => (message, other = null) => {
+const getMessageConstructor = area => callback => (
+  message,
+  other = undefined,
+) => {
   if (config.NODE_ENV === 'production') return;
   let toLog = `${area} | ${message}`;
-  if (other) {
+  if (typeof other !== 'undefined') {
     toLog = `${toLog}: ${JSON.stringify(other)}`;
   }
   callback(toLog);
