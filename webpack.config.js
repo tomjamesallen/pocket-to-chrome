@@ -1,3 +1,5 @@
+const Dotenv = require('dotenv-webpack');
+
 module.exports = {
   module: {
     rules: [
@@ -19,4 +21,5 @@ module.exports = {
     filename: '[name].js',
     path: __dirname,
   },
+  plugins: [new Dotenv()],
 };

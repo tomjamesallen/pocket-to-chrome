@@ -2,10 +2,9 @@
 
 import storage from './api/storage';
 import Pocket from './api/pocket';
+import config from './config';
 
-const CONSUMER_KEY = '63325-942e4030a60f61d0fe170393';
-
-const api = new Pocket(CONSUMER_KEY);
+const api = new Pocket(config.CONSUMER_KEY);
 
 const runAuth = async () => {
   const code = await api.getCode();

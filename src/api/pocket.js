@@ -69,3 +69,5 @@ class Pocket {
       .then(res => res.json())
       .catch(() => null);
 }
+
+export default Pocket;
