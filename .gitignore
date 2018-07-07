@@ -1,2 +1,4 @@
 node_modules/
 .env
+background.js
+background.js.map
