@@ -1,6 +1,8 @@
-import storage from './storage';
+import Storage from './storage';
 import Logger from '../utils/logger';
 const logger = new Logger('pocket.js');
+
+const accessTokenStorage = new Storage('accessToken');
 
 const getCode = async consumerKey =>
   fetch('https://getpocket.com/v3/oauth/request', {
@@ -77,10 +79,11 @@ class Pocket {
   reset = async () => {
     this.code = null;
     this.accessToken = null;
-    await storage.reset();
+    await accessTokenStorage.reset();
   };
 
   runAuth = async () => {
+    // https://getpocket.com/developer/docs/authentication
     logger.trace('runAuth');
     // Do all the auth stuff and then return the access token.
 
@@ -98,15 +101,18 @@ class Pocket {
   getAccessToken = async () => {
     logger.trace('getAccessToken');
     this.accessToken =
-      this.accessToken || (await storage.get()) || (await this.runAuth());
+      this.accessToken ||
+      (await accessTokenStorage.get()) ||
+      (await this.runAuth());
 
     if (this.accessToken) {
-      await storage.set(this.accessToken);
+      await accessTokenStorage.set(this.accessToken);
     }
     return this.accessToken;
   };
 
   getList = async (retry = true) => {
+    // https://getpocket.com/developer/docs/v3/retrieve
     logger.trace('getList');
     const accessToken = await this.getAccessToken();
     logger.trace('accessToken: ', accessToken);
