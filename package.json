@@ -5,8 +5,8 @@
   "main": "background.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build:prod": "webpack --mode=production",
-    "build:dev": "webpack --mode=development",
+    "build:prod": "webpack --mode=production --env.NODE_ENV=production",
+    "build:dev": "webpack --mode=development --env.NODE_ENV=development",
     "bundle": "gulp --gulpfile scripts/bundle.js",
     "build": "yarn build:prod && yarn bundle",
     "develop": "nodemon --exec \"yarn build:dev\""

@@ -1,25 +1,33 @@
+const webpack = require('webpack');
 const Dotenv = require('dotenv-webpack');
 
-module.exports = {
-  module: {
-    rules: [
-      {
-        test: /\.(js|jsx)$/,
-        exclude: /node_modules/,
-        use: ['babel-loader'],
-      },
+module.exports = env => {
+  return {
+    module: {
+      rules: [
+        {
+          test: /\.(js|jsx)$/,
+          exclude: /node_modules/,
+          use: ['babel-loader'],
+        },
+      ],
+    },
+    devtool: 'source-map',
+    resolve: {
+      extensions: ['*', '.js', '.jsx'],
+    },
+    entry: {
+      background: ['babel-polyfill', './src/background.js'],
+    },
+    output: {
+      filename: '[name].js',
+      path: __dirname,
+    },
+    plugins: [
+      new Dotenv({ systemvars: true }),
+      new webpack.DefinePlugin({
+        'process.env': { NODE_ENV: JSON.stringify(env.NODE_ENV) },
+      }),
     ],
-  },
-  devtool: 'source-map',
-  resolve: {
-    extensions: ['*', '.js', '.jsx'],
-  },
-  entry: {
-    background: ['babel-polyfill', './src/background.js'],
-  },
-  output: {
-    filename: '[name].js',
-    path: __dirname,
-  },
-  plugins: [new Dotenv()],
+  };
 };
