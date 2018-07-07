@@ -2,7 +2,7 @@
   "name": "Pocket to Chrome",
   "version": "1.0",
   "description": "Build an Extension!",
-  "permissions": ["storage", "https://getpocket.com/"],
+  "permissions": ["storage", "bookmarks", "https://getpocket.com/"],
   "background": {
     "scripts": ["background.js"],
     "persistent": false
