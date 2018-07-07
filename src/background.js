@@ -1,17 +1,28 @@
 'use strict';
 
-import Pocket from './api/pocket';
 import config from './config';
+import Pocket from './api/pocket';
+import Bookmarks from './api/bookmarks';
 import Logger from './utils/logger';
-const logger = new Logger('background.js');
 
-const api = new Pocket(config.CONSUMER_KEY);
+const logger = new Logger('background.js');
 const pocket = new Pocket(config.CONSUMER_KEY);
+const bookmarks = new Bookmarks();
 
 logger.trace('CONSUMER_KEY', config.CONSUMER_KEY);
 
+const sync = async () => {
+  logger.trace('Syncing bookmarks');
+  const list = await pocket.getList();
+  if (!list) return;
+  console.log('list: ', list);
+
+  bookmarks.addItems(list.list);
+};
+
 chrome.runtime.onInstalled.addListener(async () => {
   console.log('running');
+  sync();
   // const accessToken = await getAccessToken();
   // console.log('accessToken: ', accessToken);
 });
@@ -24,9 +35,7 @@ chrome.runtime.onStartup.addListener(function() {
 });
 
 window.getList = () => {
-  pocket.getList().then(res => {
-    console.log('res: ', res);
-  });
+  sync();
 };
 
 // Notes

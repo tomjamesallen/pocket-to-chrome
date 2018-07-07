@@ -4,7 +4,7 @@
   "description": "",
   "main": "background.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "build:prod": "webpack --mode=production --env.NODE_ENV=production",
     "build:dev": "webpack --mode=development --env.NODE_ENV=development",
     "bundle": "gulp --gulpfile scripts/bundle.js",
@@ -23,13 +23,17 @@
   "homepage": "https://github.com/tomjamesallen/pocket-to-chrome#readme",
   "devDependencies": {
     "babel-core": "^6.26.3",
+    "babel-jest": "^23.2.0",
     "babel-loader": "^7.1.5",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "dotenv-webpack": "^1.5.7",
     "gulp": "^3.9.1",
+    "jest": "^23.3.0",
+    "lodash.sortby": "^4.7.0",
     "nodemon": "^1.17.5",
+    "regenerator-runtime": "^0.12.0",
     "webpack": "^4.14.0",
     "webpack-cli": "^3.0.8"
   },
