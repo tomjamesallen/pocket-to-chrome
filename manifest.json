@@ -1,7 +1,7 @@
 {
   "name": "Pocket to Chrome",
   "version": "1.0",
-  "description": "Build an Extension!",
+  "description": "Save Pocket reading list to Chrome bookmarks",
   "permissions": ["storage", "bookmarks", "https://getpocket.com/"],
   "background": {
     "scripts": ["background.js"],
