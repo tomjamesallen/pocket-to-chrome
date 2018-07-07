@@ -1,5 +1,5 @@
 node_modules/
-bundle/
+pocket-to-chrome-dist/
 background.js
 background.js.map
 .env
