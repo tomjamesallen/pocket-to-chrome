@@ -4,7 +4,7 @@ import getRawUrl from '../utils/getRawUrl';
 
 const logger = new Logger('bookmarks.js');
 
-const POCKET_BOOKMARKS_FOLDER = 'Pocket Bookmarks';
+const POCKET_BOOKMARKS_FOLDER = 'Pocket to Chrome - Bookmarks';
 
 const processItems = (urls, items, limit = undefined) => {
   const keys = Object.keys(items).slice(0, limit);
@@ -65,7 +65,7 @@ const saveUrlsAsBookmarks = async urls => {
 };
 
 class Bookmarks {
-  constructor() { }
+  constructor() {}
 
   addItems = async items => {
     const urls = processItems([], items);
