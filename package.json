@@ -7,8 +7,7 @@
     "test": "jest",
     "build:prod": "webpack --mode=production --env.NODE_ENV=production",
     "build:dev": "webpack --mode=development --env.NODE_ENV=development",
-    "bundle": "gulp --gulpfile scripts/bundle.js",
-    "build": "yarn build:prod && yarn bundle",
+    "build": "yarn build:prod",
     "develop": "nodemon --exec \"yarn build:dev\""
   },
   "repository": {
@@ -29,7 +28,6 @@
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "dotenv-webpack": "^1.5.7",
-    "gulp": "^3.9.1",
     "jest": "^23.3.0",
     "lodash.sortby": "^4.7.0",
     "nodemon": "^1.17.5",

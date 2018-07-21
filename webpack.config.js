@@ -21,7 +21,7 @@ module.exports = env => {
     },
     output: {
       filename: '[name].js',
-      path: __dirname,
+      path: `${__dirname}/pocket-to-chrome-extension`,
     },
     plugins: [
       new Dotenv({ systemvars: true }),

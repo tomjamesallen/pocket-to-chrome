@@ -65,7 +65,7 @@ const saveUrlsAsBookmarks = async urls => {
 };
 
 class Bookmarks {
-  constructor() {}
+  constructor() { }
 
   addItems = async items => {
     const urls = processItems([], items);

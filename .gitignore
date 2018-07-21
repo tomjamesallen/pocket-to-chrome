@@ -1,5 +1,4 @@
 node_modules/
-pocket-to-chrome-dist/
-background.js
-background.js.map
 .env
+pocket-to-chrome-extension/background.js
+pocket-to-chrome-extension/background.js.map
