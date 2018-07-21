@@ -1,3 +1,3 @@
-Pocket to Chrome will pull all of your bookmarks saved in Pocket as Chrome bookmarks in a dedicated folder.
+Pocket to Chrome will copy all of your Pocket Bookmarks and save them as Chrome bookmarks.
 
-Please note. this folder will be overwritten on updating bookmarks, so do not save bookmarks directly from chrome into this folder.
+Please note. the bookmarks are saved into a specific folder, and this folder will be overwritten on updating bookmarks, so do not save bookmarks directly from chrome into this folder.
