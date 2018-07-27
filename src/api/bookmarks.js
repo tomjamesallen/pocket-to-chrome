@@ -1,3 +1,5 @@
+/* global chrome */
+
 import sortby from 'lodash.sortby';
 import Logger from '../utils/logger';
 import getRawUrl from '../utils/getRawUrl';
@@ -13,7 +15,7 @@ const processItems = (urls, items, limit = undefined) => {
   keys.forEach(key => {
     const item = items[key];
     const url = item.given_url && getRawUrl(item.given_url);
-    if (url && !urls.find(item => item.url === url)) {
+    if (url && !urls.find(_item => _item.url === url)) {
       urls.push({ url, title: item.given_title || url });
     }
   });
@@ -65,8 +67,6 @@ const saveUrlsAsBookmarks = async urls => {
 };
 
 class Bookmarks {
-  constructor() {}
-
   addItems = async items => {
     const urls = processItems([], items);
     await saveUrlsAsBookmarks(urls);

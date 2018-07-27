@@ -1,5 +1,8 @@
+/* global fetch, chrome, window */
+
 import Storage from './storage';
 import Logger from '../utils/logger';
+
 const logger = new Logger('pocket.js');
 
 const accessTokenStorage = new Storage('accessToken');
@@ -27,7 +30,7 @@ const authorize = code => {
 
   return new Promise(resolve => {
     chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-      if (changeInfo.status == 'complete') {
+      if (changeInfo.status === 'complete') {
         if (tab.url === 'https://getpocket.com/a/queue/') {
           resolve();
         }
@@ -126,7 +129,7 @@ class Pocket {
     if (retry) {
       this.reset();
       logger.trace('no result - retrying');
-      return await this.getList(false);
+      return this.getList(false);
     }
 
     return null;

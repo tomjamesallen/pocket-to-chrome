@@ -25,3 +25,7 @@ Once you have the dependencies and the `.env` file set up you should be ready to
 ### Installing extension in chrome
 
 To work with the extension in chrome open up `chrome://extensions/` and click "Load Unpacked" (top left). Select the nested directory `pocket-to-chrome-extension`. You can then inspect the `background page` view, or refresh the plugin to re-run the startup script.
+
+### Code formatting / linting
+
+This project uses Prettier and Eslint for formatting and linting respectively. There are `format` and `lint` scripts set up.

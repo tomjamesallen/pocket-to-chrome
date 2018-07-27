@@ -1,3 +1,5 @@
+/* eslint no-console: 0 */
+
 import config from '../config';
 
 const getMessageConstructor = area => callback => (

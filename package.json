@@ -8,7 +8,9 @@
     "build:prod": "webpack --mode=production --env.NODE_ENV=production",
     "build:dev": "webpack --mode=development --env.NODE_ENV=development",
     "build": "yarn build:prod",
-    "develop": "nodemon --exec \"yarn build:dev\""
+    "develop": "nodemon --exec \"yarn build:dev\"",
+    "lint": "eslint src/**/*.{js,jsx} --fix",
+    "format": "prettier --write 'src/**/*.{js,jsx}'"
   },
   "repository": {
     "type": "git",
@@ -22,18 +24,28 @@
   "homepage": "https://github.com/tomjamesallen/pocket-to-chrome#readme",
   "devDependencies": {
     "babel-core": "^6.26.3",
+    "babel-eslint": "8",
     "babel-jest": "^23.2.0",
     "babel-loader": "^7.1.5",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "dotenv-webpack": "^1.5.7",
+    "eslint": "4.x",
+    "eslint-config-airbnb": "^17.0.0",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-plugin-babel": "^5.1.0",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-jsx-a11y": "^6.1.1",
+    "eslint-plugin-react": "^7.10.0",
     "jest": "^23.3.0",
-    "lodash.sortby": "^4.7.0",
     "nodemon": "^1.17.5",
+    "prettier": "^1.13.7",
     "regenerator-runtime": "^0.12.0",
     "webpack": "^4.14.0",
     "webpack-cli": "^3.0.8"
   },
-  "dependencies": {}
+  "dependencies": {
+    "lodash.sortby": "^4.7.0"
+  }
 }

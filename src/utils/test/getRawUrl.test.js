@@ -1,3 +1,5 @@
+/* global test, expect */
+
 import getRawUrl from '../getRawUrl';
 
 test('it should strip the query string from a url', () => {

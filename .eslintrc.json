@@ -1,0 +1,8 @@
+{
+  "parser": "babel-eslint",
+  "extends": ["airbnb", "prettier"],
+  "plugins": ["babel"],
+  "rules": {
+    "react/no-this-in-sfc": 0
+  }
+}

@@ -1,4 +1,4 @@
-'use strict';
+/* global chrome */
 
 import config from './config';
 import Pocket from './api/pocket';

@@ -1,4 +1,6 @@
+/* global chrome */
 import Logger from '../utils/logger';
+
 const logger = new Logger('storage.js');
 
 class Storage {
