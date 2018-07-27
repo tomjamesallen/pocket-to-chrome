@@ -18,11 +18,11 @@ const sync = async () => {
   bookmarks.addItems(list.list);
 };
 
-chrome.runtime.onInstalled.addListener(async () => {
+chrome.runtime.onInstalled.addListener(() => {
   sync();
 });
 
-chrome.runtime.onStartup.addListener(function() {
+chrome.runtime.onStartup.addListener(() => {
   sync();
 });
 
